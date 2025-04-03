@@ -1,0 +1,92 @@
+//Creating ReservationDB Database 
+create database ReservationDB;
+use ReservationDB;
+
+
+//Creating Passengers Table - stores the personal details of the Passenger
+create table Passengers(
+ID int auto_increment primary key,
+Passenger_Name varchar(100) not null,
+Age int,
+Gender enum('Male','Female','Other'),
+Phone_No varchar(50) not null unique,
+Email_Address varchar(150) unique,
+Address text,
+Identity_Proof_Type enum('Aadhar Card','PAN Card','Driving License','Other'),
+Identity_Proof_No varchar(50) unique,
+Created_at timestamp default current_timestamp
+);
+
+
+//Creating Buses Table - stores the details of respective Bus
+create table Buses(
+ID int auto_increment primary key,
+BusNumber varchar(20) not null,
+BusType enum('AC', 'Non-AC', 'Sleeper', 'Seater', 'Luxury') not null,
+Departure varchar(50) not null,
+Destination varchar(50) not null,
+Departure_time time not null,
+Arrival_time time not null,
+Journey_Date date not null,
+Available_seats int not null,
+Total_seats int not null,
+Fare decimal(10,2) not null,
+Driver_name varchar(100),
+Driver_contact varchar(15),
+BusCompany varchar(100), 
+Amenities text, 
+Bus_rating decimal(3,2) default 3.0,
+Created_at timestamp default current_timestamp
+);
+
+
+//Data Insertion in Bus Table
+INSERT INTO Buses (BusNumber, BusType, Departure, Destination, Departure_time, Arrival_time, Available_seats, Total_seats, Fare, Driver_name, Driver_contact, BusCompany, Amenities, Bus_rating, Journey_Date) 
+VALUES
+('MH01AB1234', 'AC', 'Mumbai', 'Pune', '08:00:00', '12:00:00', 40, 40, 450.00, 'Rajesh Kumar', '9876543210', 'Neeta Travels', 'WiFi, Charging Point, Blanket', 4.5, '2025-04-01'),
+('MH02CD5678', 'Non-AC', 'Pune', 'Mumbai', '09:30:00', '13:30:00', 35, 40, 350.00, 'Suresh Patil', '9988776655', 'VRL Travels', 'Water Bottle, Reading Light', 3.8, '2025-04-02'),
+('MH03EF9012', 'Sleeper', 'Delhi', 'Chandigarh', '22:00:00', '04:30:00', 30, 30, 700.00, 'Amit Singh', '9123456789', 'RedBus', 'WiFi, Pillow, Blanket', 4.2, '2025-04-03'),
+('MH04GH3456', 'Seater', 'Bangalore', 'Mysore', '06:30:00', '09:00:00', 50, 50, 250.00, 'Manoj Reddy', '9234567890', 'KSRTC', 'Charging Point, Water Bottle', 4.0, '2025-04-04'),
+('MH05IJ7890', 'Luxury', 'Hyderabad', 'Goa', '20:00:00', '06:00:00', 25, 25, 1200.00, 'Ravi Sharma', '9345678901', 'Orange Tours', 'WiFi, Reclining Seats, Snacks', 4.7, '2025-04-05'),
+('MH06KL23457', 'AC', 'Chennai', 'Bangalore', '07:45:00', '12:15:00', 45, 45, 500.00, 'Ganesh Rao', '9456789012', 'SRS Travels', 'AC, Charging Point', 4.1, '2025-04-06'),
+('MH07MN6789', 'Non-AC', 'Jaipur', 'Udaipur', '14:00:00', '19:00:00', 38, 40, 400.00, 'Mahesh Gupta', '9567890123', 'Shri Krishna Travels', 'Reading Light, Water Bottle', 3.6, '2025-04-07'),
+('MH08OP1234', 'Sleeper', 'Lucknow', 'Delhi', '21:00:00', '05:00:00', 20, 25, 900.00, 'Vikas Pandey', '9678901234', 'UP Roadways', 'Pillow, Blanket', 4.3, '2025-04-08'),
+('MH09QR5678', 'Seater', 'Kolkata', 'Digha', '05:30:00', '09:00:00', 48, 50, 300.00, 'Santosh Das', '9789012345', 'WBSTC', 'Water Bottle, Charging Point', 4.0, '2025-04-09'),
+('MH10ST9012', 'Luxury', 'Ahmedabad', 'Mumbai', '23:00:00', '07:00:00', 20, 25, 1300.00, 'Rajiv Mehta', '9890123456', 'Gujarat Travels', 'WiFi, Reclining Seats, Snacks', 4.8, '2025-04-10'),
+('MH11UV3456', 'AC', 'Indore', 'Bhopal', '11:30:00', '14:30:00', 40, 40, 280.00, 'Deepak Jain', '9901234567', 'Hans Travels', 'Charging Point, Water Bottle', 4.0, '2025-04-11'),
+('MH12WX7890', 'Non-AC', 'Nagpur', 'Raipur', '16:00:00', '21:00:00', 37, 40, 370.00, 'Dilip Pawar', '9012345678', 'Mahendra Travels', 'Reading Light, Water Bottle', 3.7, '2025-04-12'),
+('MH13YZ2345', 'Sleeper', 'Bangalore', 'Hyderabad', '22:30:00', '06:00:00', 25, 30, 850.00, 'Kumar Swamy', '9123456789', 'VRL Travels', 'WiFi, Blanket', 4.4, '2025-04-13'),
+('MH14AB6789', 'Seater', 'Mumbai', 'Surat', '06:45:00', '12:00:00', 50, 50, 450.00, 'Vinay Patel', '9234567890', 'Rajdhani Travels', 'Charging Point, Water Bottle', 4.2, '2025-04-14'),
+('MH15CD1234', 'Luxury', 'Delhi', 'Agra', '07:00:00', '11:00:00', 30, 30, 700.00, 'Sanjay Verma', '9345678901', 'Taj Express', 'WiFi, Reclining Seats, Snacks', 4.6, '2025-04-15');
+
+
+//Creating Reservations Table - stores the details of respective Passenger's Reservation
+create table Reservations (
+ID int auto_increment primary key,
+PassengerID int,
+BusID int,
+SeatNo int,
+booking_Time timestamp default current_timestamp,
+Payment_status enum('Paid', 'Refunded') default 'Paid',
+Reservation_status enum('Booked', 'Cancelled') default 'Booked',
+foreign key (PassengerID) references Passengers(ID) on delete cascade,
+foreign key (BusID) references Buses(ID) on delete cascade
+);
+
+
+//Creating Payments Table - stores the Payment details of respective Passenger's Reservation
+create table Payments(
+ID int auto_increment primary key,
+PassengerID int,
+ReservationID int,
+Amount decimal(10,2) not null,
+payment_date timestamp default current_timestamp,
+status enum('Success', 'Failed', 'Pending') default 'Pending',
+foreign key (ReservationID) references Reservations(ID) on delete cascade,
+foreign key (PassengerID) references Passengers(ID) on delete cascade
+);
+
+select * from  Buses;
+select * from Passengers;
+select * from Reservations;
+select * from Payments;
