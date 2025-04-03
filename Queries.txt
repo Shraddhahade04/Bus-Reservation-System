@@ -1,0 +1,80 @@
+//Retriving the List of Buses Available
+select BusNumber from Buses;
+
+
+//Retriving Id of respective Bus number
+select ID from Buses where BusNumber = ?;
+
+
+//Counting no. of Reservation for respective Seat number and Bus Id
+select count(*) from Reservations where BusID =? and SeatNo = ?;
+
+
+//Data Insertion of Passenger generated through UI
+insert ignore into Passengers(Passenger_Name, Age, Gender, Phone_No, Email_Address, Address, Identity_Proof_Type, Identity_Proof_No) VALUES(?, ?, ?, ?, ?, ?, ?, ?);
+
+
+//Retriving Id of respective Passenger having respective Phone number
+select ID from Passengers where Phone_No = ?;
+
+
+//Retriving ID, Available_seats, Journey_Date of respective Bus number
+select ID, Available_seats,Journey_Date from Buses where BusNumber = ?;
+
+
+//Data Insertion in Reservation Table
+insert into Reservations(PassengerID, BusID, SeatNo) values(?, ?, ?);
+
+
+//Updating the Available seats if ticket is booked
+update Buses set Available_seats = Available_seats - 1 where ID = ?;
+
+
+//Retriving the Data from Reservations, Buses, Passengers Table
+select R.ID, B.BusNumber,B.Departure,B.Destination,B.Journey_Date, R.SeatNo, P.Passenger_Name,
+P.Phone_No, P.Email_Address, B.Driver_name, B.Driver_contact, B.Fare                        
+from Reservations R                        
+join Buses B on R.BusID = B.ID
+join Passengers P on R.PassengerID = P.ID                        
+where R.PassengerID = ? order by R.ID desc limit 1;
+
+
+//Retriving ID of latest Updated Passenger
+select ID from Reservations where PassengerID = ? order by ID desc limit 1;
+
+
+//Retriving Fare of respective Bus
+Select Fare from Buses where ID = ?;
+
+
+//Data Insertion in Payments Table
+insert into Payments(PassengerID,ReservationID,Amount,status)values(?,?,?,?);
+
+
+//Updating Payment_status
+update Reservations set Payment_status = 'Paid' where ID = ?;
+
+
+//Retriving Id of respective Passenger having respective Phone number
+select ID from Passengers where Phone_No = ?; 
+
+
+//Updating Reservation status, Payment status and Seat number
+update Reservations set Reservation_status = 'Cancelled',Payment_status ='Refunded',SeatNo=0 where PassengerID = ? AND BusID = ?;    
+
+
+//Updating Available seats if any booking Cancelled
+update Buses set Available_seats = Available_seats + 1 where ID = ?;
+
+
+//Retriving Bus Details
+select BusNumber, Departure, Destination, Available_seats,Journey_Date,Departure_time, Arrival_time from Buses where BusNumber = ?;
+
+
+//Retriving the Data from Reservations, Buses, Passengers, Payments Table
+select R.ID, B.BusNumber,B.Departure,B.Destination,B.Journey_Date, R.SeatNo, P.Passenger_Name, P.Phone_No, P.Email_Address, B.Driver_name, B.Driver_contact,Py.ID,Py.Amount,Py.payment_date
+from Reservations R
+join Buses B on R.BusID = B.ID
+join Passengers P on R.PassengerID = P.ID
+join Payments Py on R.ID = Py.ReservationID
+where R.PassengerID = ? orcer by R.ID desc limit 1;                   
