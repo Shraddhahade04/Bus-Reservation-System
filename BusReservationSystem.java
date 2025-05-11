@@ -220,7 +220,7 @@ public class BusReservationSystem {
         invoiceButton.addActionListener(e -> printInvoive());
         frame.add(invoiceButton);
 
-        ImageIcon icon = new ImageIcon("C:/Users/shrad/Downloads/busImg1.jpg");
+        ImageIcon icon = new ImageIcon("Your Image Path");
         Image img = icon.getImage().getScaledInstance(200, 210, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(img);
         JLabel imageLabel = new JLabel(resizedIcon);
@@ -245,6 +245,9 @@ public class BusReservationSystem {
                     ((JTextArea) comp).setText(""); // Clear text area
                 }
             }
+            idProofGroup.clearSelection();
+            genderGroup.clearSelection();
+            
             invoiceDetails.setVisible(false);
             // Show confirmation message
             JOptionPane.showMessageDialog(frame, "Now! Book your new Reservation.");
