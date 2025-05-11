@@ -15,7 +15,7 @@ Update connectDB() with your MySQL username and password:
 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/reservationdb", "your_username", "your_password");
 3️⃣ Add Bus Seat Arrangement Image Path-
 In the code, update the path to the image you want to use for the bus seat layout:
-ImageIcon seatImage = new ImageIcon("C:/path/to/your/image.png");
+ImageIcon icon = new ImageIcon("C:/path/to/your/image.png");
 4️⃣ Run the Project-
 Compatible with VS Code, IntelliJ IDEA, Sublime Text, Notepad, or JDK Terminal:
 javac BusReservationSystem.java
